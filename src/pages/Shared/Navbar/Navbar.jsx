@@ -3,7 +3,7 @@ import logo from "../../../assets/logo.png"; // আপনার লোগো pat
 
 const Navbar = () => {
   return (
-    <div className="bg-[#8A0000] shadow-md">
+    <div className="bg-[#8A0000] shadow-md sticky top-0 z-50">
       <div className="navbar container mx-auto text-white py-2">
 
         {/* Left : Logo + Name */}
