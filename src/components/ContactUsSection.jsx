@@ -1,86 +1,45 @@
-import React, { useState } from 'react';
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const ContactUsSection = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here (e.g., send data to an API)
-    setIsSubmitted(true);
-  };
-
   return (
-    <section className=" py-12">
-      <div className="max-w-screen-xl mx-auto px-4">
-        <h2 className="text-3xl font-semibold text-center  mb-6">Contact Us</h2>
-        <p className="text-center  mb-12">We’d love to hear from you! Reach out for any questions or assistance.</p>
+    <motion.div
+      initial={{ opacity: 0, y: 80 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className="bg-gradient-to-r from-red-700 to-red-900 py-20 px-6 text-center rounded-lg my-16 overflow-hidden"
+    >
+      <motion.h2
+        initial={{ opacity: 0, y: -30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        className="text-white text-5xl font-bold mb-6"
+      >
+        Become a Lifesaver Today
+      </motion.h2>
 
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Contact Form */}
-          <div className=" p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold  mb-4">Send Us a Message</h3>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label htmlFor="name" className="block ">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="email" className="block ">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="message" className="block ">Message</label>
-                <textarea
-                  name="message"
-                  id="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
-                  rows="4"
-                  required
-                />
-              </div>
-              <button type="submit" className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                Send Message
-              </button>
-            </form>
-            {isSubmitted && <p className="mt-4 text-green-500">Thank you for your message. We will get back to you soon!</p>}
-          </div>
+      <motion.p
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+        className="text-white/90 max-w-3xl mx-auto text-lg mb-10"
+      >
+        Register as a donor or search for donors in need. 
+        Every drop counts — join the movement!
+      </motion.p>
 
-          {/* Contact Info */}
-          <div className=" p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
-            <p className=" mb-4">If you need immediate assistance, feel free to contact us directly at:</p>
-            <p className="text-lg text-blue-600">+1 (123) 456-7890</p>
-          </div>
-        </div>
-      </div>
-    </section>
+      <motion.button
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.95 }}
+        animate={{ boxShadow: ["0 0 0px #fff", "0 0 20px #fff", "0 0 0px #fff"] }}
+        transition={{ repeat: Infinity, duration: 2 }}
+        className="bg-red-500 hover:bg-red-600 text-white px-12 py-4 rounded-full text-xl font-semibold shadow-lg"
+      >
+        <Link to="/register">Register as Donor</Link>
+      </motion.button>
+    </motion.div>
   );
 };
 

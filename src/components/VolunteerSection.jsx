@@ -1,50 +1,83 @@
-import React from 'react';
+// import React from "react";
+// import { FaHandHoldingHeart, FaUsers, FaDonate } from "react-icons/fa";
+// import { motion } from "framer-motion";
 
-const VolunteerSection = () => {
-  const volunteers = [
-    {
-      name: "Nora Khaypsie",
-      role: "Co-Founder",
-      image: "https://cdn.create.vista.com/api/media/small/80152446/stock-photo-smiling-female-doctor-holding-medical-records", // Replace with actual image URL
-    },
-    {
-      name: "Alex Joshan Deo",
-      role: "Co-Founder",
-      image: "https://media.istockphoto.com/id/1346124900/photo/confident-successful-mature-doctor-at-hospital.jpg?s=612x612&w=0&k=20&c=S93n5iTDVG3_kJ9euNNUKVl9pgXTOdVQcI_oDGG-QlE=",
-    },
-    {
-      name: "Joshan Khaypsia",
-      role: "Co-Founder",
-      image: "https://static.vecteezy.com/system/resources/thumbnails/026/375/249/small_2x/ai-generative-portrait-of-confident-male-doctor-in-white-coat-and-stethoscope-standing-with-arms-crossed-and-looking-at-camera-photo.jpg",
-    },
-  ];
+// const VolunteerSection = () => {
+//   // Motion Variants
+//   const cardVariant = {
+//     hidden: { opacity: 0, y: 50 },
+//     visible: (i) => ({
+//       opacity: 1,
+//       y: 0,
+//       transition: { delay: i * 0.2, duration: 0.6, type: "spring", stiffness: 100 },
+//     }),
+//   };
 
-  return (
-    <section className="py-12  ">
-     <div className='w-11/12'>
-     <div className="text-center">
-        <h3 className="text-red-500 uppercase font-bold">Team Members</h3>
-        <h2 className="text-3xl font-bold">Meet Volunteers</h2>
-      </div>
-      <div className="flex justify-center gap-8 mt-8">
-        {volunteers.map((volunteer, index) => (
-          <div
-            key={index}
-            className="bg-white shadow-md rounded-lg p-4 text-center w-64"
-          >
-            <img
-              src={volunteer.image}
-              alt={volunteer.name}
-              className="w-full h-48 object-cover rounded-md"
-            />
-            <h3 className="text-lg font-semibold mt-4">{volunteer.name}</h3>
-            <p className="text-gray-500">{volunteer.role}</p>
-          </div>
-        ))}
-      </div>
-     </div>
-    </section>
-  );
-};
+//   return (
+//     <div className="bg-red-100 py-16 px-6 md:px-20">
+//       <motion.h2
+//         initial={{ opacity: 0, y: -30 }}
+//         animate={{ opacity: 1, y: 0 }}
+//         transition={{ duration: 0.8 }}
+//         className="text-4xl font-bold text-center text-red-700 mb-12"
+//       >
+//         Join Our Volunteer Program
+//       </motion.h2>
 
-export default VolunteerSection;
+//       <div className="grid md:grid-cols-3 gap-8 text-center">
+//         {/* Card 1 */}
+//         <motion.div
+//           className="bg-white shadow-lg rounded-lg p-8"
+//           variants={cardVariant}
+//           initial="hidden"
+//           whileInView="visible"
+//           viewport={{ once: true }}
+//           custom={0}
+//           whileHover={{ scale: 1.05 }}
+//         >
+//           <FaHandHoldingHeart className="text-red-600 mx-auto text-5xl mb-4" />
+//           <h3 className="text-xl font-semibold mb-2">Be a Donor</h3>
+//           <p className="text-gray-600">
+//             Contribute your blood to save lives. Every drop counts and can make a huge difference.
+//           </p>
+//         </motion.div>
+
+//         {/* Card 2 */}
+//         <motion.div
+//           className="bg-white shadow-lg rounded-lg p-8"
+//           variants={cardVariant}
+//           initial="hidden"
+//           whileInView="visible"
+//           viewport={{ once: true }}
+//           custom={1}
+//           whileHover={{ scale: 1.05 }}
+//         >
+//           <FaUsers className="text-red-600 mx-auto text-5xl mb-4" />
+//           <h3 className="text-xl font-semibold mb-2">Join as Volunteer</h3>
+//           <p className="text-gray-600">
+//             Help organize blood donation camps and raise awareness in your community.
+//           </p>
+//         </motion.div>
+
+//         {/* Card 3 */}
+//         <motion.div
+//           className="bg-white shadow-lg rounded-lg p-8"
+//           variants={cardVariant}
+//           initial="hidden"
+//           whileInView="visible"
+//           viewport={{ once: true }}
+//           custom={2}
+//           whileHover={{ scale: 1.05 }}
+//         >
+//           <FaDonate className="text-red-600 mx-auto text-5xl mb-4" />
+//           <h3 className="text-xl font-semibold mb-2">Support the Cause</h3>
+//           <p className="text-gray-600">
+//             Contribute your time or resources to support our blood donation drives and save lives.
+//           </p>
+//         </motion.div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default VolunteerSection;
