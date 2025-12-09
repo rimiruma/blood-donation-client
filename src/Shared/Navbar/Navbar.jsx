@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logo from "../../../public/logo.png";
 import { useAuth } from "../../Provider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { FaMix } from "react-icons/fa";
@@ -24,16 +25,16 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-pink-100 shadow-md z-30">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    <nav className="fixed top-0 left-0 w-full bg-[#8A0000] shadow-md z-50">
+      <div className="container text-white mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <img
-            src="https://static.vecteezy.com/system/resources/thumbnails/053/320/428/small/blood-donor-month-a-drop-of-blood-created-with-the-help-of-technology-photo.jpg"
+            src={logo}
             alt="Logo"
-            className="w-10 h-10 rounded-full"
+            className="w-12 h-12 rounded-full"
           />
-          <a href="/" className="text-2xl font-bold text-red-600">
+          <a href="/" className="text-2xl font-bold text-white">
             Blood
           </a>
         </div>
@@ -41,24 +42,24 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <ul className="hidden md:flex space-x-6 text-gray-600">
           <li>
-            <a href="/" className="hover:text-gray-800">
+            <a href="/" className="text-white">
               Home
             </a>
           </li>
           <li>
-            <a href="/donation-requests" className="hover:text-gray-800">
+            <a href="/donation-requests" className="text-white">
               Donation Requests
             </a>
           </li>
           <li>
-            <a href="/blog" className="hover:text-gray-800">
+            <a href="/blog" className="text-white">
               Blog
             </a>
           </li>
 
           {user && (
             <li>
-              <a href="/funding-links" className="hover:text-gray-800">
+              <a href="/funding-links" className="text-white">
                 Funding Links
               </a>
             </li>
@@ -70,7 +71,7 @@ const Navbar = () => {
           {user ? (
             <li className="relative">
               <img
-                src={user.photoURL || "/default-profile.png"}
+                src={user?.photoURL}
                 alt="Profile"
                 className="h-10 w-10 rounded-full cursor-pointer border-2 border-white"
                 onClick={() => setDropdownOpen(!isDropdownOpen)}
