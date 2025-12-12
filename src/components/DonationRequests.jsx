@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 const DonationRequests = () => {
   const [requests, setRequests] = useState([]);
+  const navigate = useNavigate(); // <-- useNavigate হুক
 
   useEffect(() => {
     axios.get("http://localhost:3000/requests")
@@ -17,7 +18,7 @@ const DonationRequests = () => {
 
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
-          
+
           <thead>
             <tr>
               <th>#</th>
@@ -41,12 +42,12 @@ const DonationRequests = () => {
                 <td>{req.donationTime}</td>
 
                 <td>
-                  <Link
-                    to={`/requests/${req._id}`}
-                    className="btn btn-sm btn-primary"
+                  <button
+                    className="btn btn-sm btn-info"
+                    onClick={() => navigate(`/donation-requests-details/${req._id}`)}
                   >
                     View
-                  </Link>
+                  </button>
                 </td>
               </tr>
             ))}
