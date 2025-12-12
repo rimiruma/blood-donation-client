@@ -1,288 +1,151 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiosPublic from "../../../hook/UseAxiosPublic";
 import Swal from "sweetalert2";
-import LoadingSpinner from "../../../components/LoadingSpinner";
+
+const imgbb_api_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 
 const Register = () => {
-  const { register, reset, formState: { errors } } = useForm();
+  const { createUser, updatUserProfile } = useContext(AuthContext);
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
 
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
   const [filteredUpazilas, setFilteredUpazilas] = useState([]);
-  const { createUser, updatUserProfile } = useContext(AuthContext);
-  const axiosPublic = useAxiosPublic();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+
   const [formData, setFormData] = useState({
     email: "",
     name: "",
     bloodGroup: "",
     district: "",
     upazila: "",
-    photoURL: "" ,
     password: "",
     confirmPassword: "",
+    avatar: null,
   });
 
-  console.log("data check", formData);
-
-  useEffect(() => {
-    fetch("/upazilas.json")
-      .then((res) => res.json())
-      .then((data) => setUpazilas(data))
-      .catch((err) => console.error("Error fetching upazilas:", err));
-  }, []);
-
-
-
-  // Fetch Districts Data
+  // Fetch districts & upazilas
   useEffect(() => {
     fetch("/districts.json")
       .then((res) => res.json())
-      .then((data) => {
-        setDistricts(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching districts:", err);
-        setError("Failed to load districts.");
-        setLoading(false);
-      });
+      .then((data) => setDistricts(data))
+      .catch((err) => console.error("Failed to load districts:", err));
+
+    fetch("/upazilas.json")
+      .then((res) => res.json())
+      .then((data) => setUpazilas(data))
+      .catch((err) => console.error("Failed to load upazilas:", err));
   }, []);
 
-  // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
 
-    if (name === "district") {
-      const selectedDistrict = districts.find((d) => d.name === value);
-      if (selectedDistrict) {
-        const filtered = upazilas.filter(
-          (u) => u.district_id === selectedDistrict.id.toString()
-        );
-        setFilteredUpazilas(filtered);
-      } else {
-        setFilteredUpazilas([]);
-      }
-      setFormData({ ...formData, district: value, upazila: "" });
-    }
-
-  };
-
-
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Validate passwords
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+    if (name === "avatar") {
+      setFormData({ ...formData, avatar: files[0] });
       return;
     }
 
-    console.log("Form Data:", formData);
+    if (name === "district") {
+      const selectedDistrict = districts.find((d) => d.name === value);
 
-    createUser(formData.email, formData.password)
-      .then((result) => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
+      const filtered = selectedDistrict
+        ? upazilas.filter(
+            (u) => u.district_id.toString() === selectedDistrict.id.toString()
+          )
+        : [];
 
-        updatUserProfile(formData.name)
-          .then(() => {
+      setFilteredUpazilas(filtered);
 
-            const userInfo = {
-              name: formData.name,
-              email: formData.email,
-              district: formData.district,
-              upazila: formData.upazila,
-              bloodGroup: formData.bloodGroup,
-              photoURL: formData.photoURL,
-              password: formData.password,
-            };
+      setFormData({ ...formData, district: value, upazila: "" });
+      return;
+    }
 
-            console.log("User Info:", userInfo);
-            axiosPublic.post("/register", userInfo).then((res) => {
-              console.log("User added to the database", res);
-              if (res.data.userId) {
-                console.log("User added to the database");
-                reset();
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "User created successfully.",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                navigate("/login");
-              }
-            });
-          })
-          .catch((error) => console.log(error));
-      })
-      .catch((error) => console.log(error));
+    setFormData({ ...formData, [name]: value });
   };
 
+  // Upload avatar to imgbb
+  const uploadImageToImgbb = async (image) => {
+    const data = new FormData();
+    data.append("image", image);
 
-  if (loading) return <LoadingSpinner></LoadingSpinner>;
-  if (error) return <p className="text-red-500">{error}</p>;
+    const res = await fetch(
+      `https://api.imgbb.com/1/upload?key=${imgbb_api_key}`,
+      { method: "POST", body: data }
+    );
+    const result = await res.json();
+
+    if (!result.success) throw new Error("Image upload failed");
+    return result.data.display_url;
+  };
+
+  // Submit form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { email, password, confirmPassword, name, district, upazila, bloodGroup, avatar } = formData;
+
+    if (password !== confirmPassword) {
+      Swal.fire("Error", "Passwords do not match", "error");
+      return;
+    }
+
+    try {
+      let avatarURL = "";
+      if (avatar) avatarURL = await uploadImageToImgbb(avatar);
+
+      await createUser(email, password);
+      await updatUserProfile(name, avatarURL);
+
+      const userInfo = { name, email, district, upazila, bloodGroup, avatar: avatarURL, role: "donor", status: "active" };
+      const res = await axiosPublic.post("/register", userInfo);
+
+      if (res.data.userId) {
+        Swal.fire("Success", "Registration successful", "success");
+        navigate("/login");
+      }
+    } catch (err) {
+      console.error(err);
+      Swal.fire("Error", err.message, "error");
+    }
+  };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-8 rounded shadow-lg">
+    <div className="max-w-lg mx-auto bg-white p-8 rounded shadow">
       <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Email */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Email</label>
-          <input
-            type="email"
-            name="email"
-            className="w-full border px-3 py-2 rounded"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
 
-        {/* Name */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="name"
-            className="w-full border px-3 py-2 rounded"
-            value={formData.name}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input type="text" name="name" placeholder="Full Name" className="w-full border px-3 py-2 rounded" onChange={handleChange} required />
+        <input type="email" name="email" placeholder="Email" className="w-full border px-3 py-2 rounded" onChange={handleChange} required />
+        <input type="file" name="avatar" accept="image/*" className="w-full border px-3 py-2 rounded" onChange={handleChange} />
 
+        <select name="bloodGroup" className="w-full border px-3 py-2 rounded" onChange={handleChange} required>
+          <option value="">Select Blood Group</option>
+          {["A+","A-","B+","B-","AB+","AB-","O+","O-"].map((g) => (
+            <option key={g} value={g}>{g}</option>
+          ))}
+        </select>
 
+        <select name="district" className="w-full border px-3 py-2 rounded" onChange={handleChange} required>
+          <option value="">Select District</option>
+          {districts.map((d) => <option key={d.id} value={d.name}>{d.name}</option>)}
+        </select>
 
-        {/* Blood Group */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Blood Group</label>
-          <select
-            name="bloodGroup"
-            className="w-full border px-3 py-2 rounded"
-            value={formData.bloodGroup}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="" disabled>
-              Select Blood Group
-            </option>
-            <option>A+</option>
-            <option>A-</option>
-            <option>B+</option>
-            <option>B-</option>
-            <option>AB+</option>
-            <option>AB-</option>
-            <option>O+</option>
-            <option>O-</option>
-          </select>
-        </div>
+        <select name="upazila" className="w-full border px-3 py-2 rounded" onChange={handleChange} required disabled={!formData.district}>
+          <option value="">Select Upazila</option>
+          {filteredUpazilas.map((u) => <option key={u.id} value={u.name}>{u.name}</option>)}
+        </select>
 
-        {/* District */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">District</label>
-          <select
-            name="district"
-            className="w-full border px-3 py-2 rounded"
-            value={formData.district}
-            onChange={handleInputChange}
-          // required
-          >
-            <option value="" disabled>
-              Select District
-            </option>
-            {districts.map((district) => (
-              <option key={district.id} value={district.name}>
-                {district.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <input type="password" name="password" placeholder="Password" className="w-full border px-3 py-2 rounded" onChange={handleChange} required />
+        <input type="password" name="confirmPassword" placeholder="Confirm Password" className="w-full border px-3 py-2 rounded" onChange={handleChange} required />
 
+        <button className="w-full bg-red-500 text-white py-2 rounded">Register</button>
 
-        {/* Upazila */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Upazila</label>
-
-          <select
-            name="upazila"
-            className="w-full border px-3 py-2 rounded"
-            value={formData.upazila}
-            onChange={handleInputChange}
-          >
-            <option value="" disabled>
-              Select Upazila
-            </option>
-            {filteredUpazilas.map((upazila) => (
-              <option key={upazila.id} value={upazila.name}>
-                {upazila.name}
-              </option>
-            ))}
-          </select>
-
-
-
-        </div>
-
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Photo URL</span>
-          </label>
-          <input
-            type="text"
-            name="photoURL"
-            placeholder="Photo URL (optional)"
-            className="input input-bordered"
-          />
-        </div>
-
-
-        {/* Password */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Password</label>
-          <input
-            type="password"
-            name="password"
-            className="w-full border px-3 py-2 rounded"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        {/* Confirm Password */}
-        <div className="mb-6">
-          <label className="block mb-1 font-medium">Confirm Password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            className="w-full border px-3 py-2 rounded"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
-        >
-          Register
-        </button>
+        <p className="text-center text-sm">
+          Already have an account? <Link to="/login" className="text-blue-500">Login</Link>
+        </p>
       </form>
-      <p className='px-10'><small>Already have an account <Link to="/login" className="text-red-400">login</Link> </small></p>
     </div>
   );
 };

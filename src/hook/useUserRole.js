@@ -1,15 +1,21 @@
-import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 const useUserRole = (email) => {
-    const { data: userRole, isLoading } = useQuery({
-        queryKey: ['userRole', email],
-        queryFn: async () => {
-            const response = await axios.get(`http://localhost:3000/user/${email}`)
-            return response.data.data.role
-        }
-    })
-    return [userRole, isLoading]
-}
+  const encodedEmail = encodeURIComponent(email);
 
-export default useUserRole
+  const { data: userRole, isLoading } = useQuery({
+    queryKey: ['userRole', email],
+    queryFn: async () => {
+      const response = await axios.get(
+        `http://localhost:3000/user/${encodedEmail}`
+      );
+      return response.data?.data?.role; // backend structure অনুযায়ী
+    },
+    enabled: !!email, // email না থাকলে request যাবে না
+  });
+
+  return [userRole, isLoading];
+};
+
+export default useUserRole;

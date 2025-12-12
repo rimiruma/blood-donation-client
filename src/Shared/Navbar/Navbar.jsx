@@ -161,7 +161,7 @@ const Navbar = () => {
               </>
             ) : (
               <li>
-                <a href="/login" className="hover:text-gray-800" onClick={() => setMenuOpen(false)}>
+                <a href="/login" className="" onClick={() => setMenuOpen(false)}>
                   Login
                 </a>
               </li>

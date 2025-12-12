@@ -48,13 +48,21 @@ const AuthProvider = ({ children }) => {
         }
     }, [])
 
-    useEffect(() => {
-        if (user?.email) {
-          axios.get(`http://localhost:3000/user-profile?email=${user?.email}`).then((res) => {
-            setUserProfile(res.data); 
-          });
-        }
-      }, [user]);
+   useEffect(() => {
+  if (user?.email) {
+    const encodedEmail = encodeURIComponent(user.email);
+
+    axios
+      .get(`http://localhost:3000/user-profile?email=${encodedEmail}`)
+      .then((res) => {
+        setUserProfile(res.data);
+      })
+      .catch((err) => {
+        console.error("User profile fetch error:", err);
+      });
+  }
+}, [user]);
+
 
 
     const authInfo = {
