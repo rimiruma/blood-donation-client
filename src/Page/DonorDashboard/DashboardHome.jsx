@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import { TbViewfinder } from "react-icons/tb";
+import { VscEdit } from "react-icons/vsc";
+
+
+
 import { useAuth } from '../../Provider/AuthProvider';
 
 const DashboardHome = () => {
@@ -100,22 +106,22 @@ console.log("user fffe", user)
                     )}
                     <div className='flex gap-2'>
                     <button
-                      className="btn btn-sm btn-warning"
+                      className="btn-square p-4 bg-orange-600 text-white"
                       onClick={() => navigate(`/dashboard/donation-requests-edit/${request._id}`)}
                     >
-                      Edit
+                      <VscEdit />
                     </button>
                     <button
-                      className="btn btn-sm btn-error"
+                      className="btn-square p-4 bg-red-600 text-white"
                       onClick={() => handleDelete(request._id)}
                     >
-                      Delete
+                      <RiDeleteBin5Fill />
                     </button>
                     <button
-                      className="btn btn-sm btn-info"
+                      className="btn-square p-4 bg-yellow-600 text-white"
                       onClick={() => navigate(`/dashboard/donation-requests-details/${request._id}`)}
                     >
-                      View
+                      <TbViewfinder />
                     </button>
                     </div>
                   </td>

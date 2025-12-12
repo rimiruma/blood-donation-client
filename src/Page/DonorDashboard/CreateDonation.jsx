@@ -135,7 +135,7 @@ const CreateDonation = () => {
                     icon: "success",
                     draggable: true
                   });
-                navigate('/dashboard');
+                navigate('/dashboard/dashboard-Home');
             }
         } catch (error) {
             console.error(error);

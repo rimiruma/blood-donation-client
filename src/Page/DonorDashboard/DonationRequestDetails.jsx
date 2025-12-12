@@ -36,7 +36,7 @@ const DonationRequestDetails = () => {
       });
       alert("Donation confirmed successfully!");
       setIsModalOpen(false);
-      navigate("/dashboard");
+      navigate("/dashboard/dashboard-Home");
     } catch (err) {
       console.error(err);
       alert("Failed to confirm donation.");
@@ -88,7 +88,7 @@ const DonationRequestDetails = () => {
         </p>
 
         <button
-          className="btn btn-primary mt-4"
+          className=" bg-red-600 p-3 px-10 text-white mt-4"
           onClick={() => setIsModalOpen(true)}
           disabled={requestDetails.donationStatus !== "pending"}
         >

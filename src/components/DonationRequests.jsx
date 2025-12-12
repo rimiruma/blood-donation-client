@@ -43,7 +43,7 @@ const DonationRequests = () => {
 
                 <td>
                   <button
-                    className="btn btn-sm btn-info"
+                    className="btn-square bg-red-600 text-white"
                     onClick={() => navigate(`/donation-requests-details/${req._id}`)}
                   >
                     View

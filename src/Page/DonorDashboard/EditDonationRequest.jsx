@@ -39,7 +39,7 @@ const EditDonationRequest = () => {
     e.preventDefault();
     try {
       await axios.patch(`http://localhost:3000/donation-requests/${id}`, formData);
-      navigate('/dashboard'); 
+      navigate('/dashboard/dashboard-Home'); 
     } catch (error) {
       console.error('Error updating donation request:', error);
     }
@@ -95,7 +95,7 @@ const EditDonationRequest = () => {
         </div>
         <div>
           <label className="block font-bold mb-2">Time</label>
-          <input
+          <inputhome
             type="time"
             name="donationTime"
             value={formData.donationTime}
