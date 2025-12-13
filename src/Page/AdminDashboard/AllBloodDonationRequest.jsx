@@ -14,7 +14,7 @@ const AllBloodDonationRequest = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/all-donation-requests?page=${page}&status=${statusFilter}`
+        `https://assinment12server.vercel.app/all-donation-requests?page=${page}&status=${statusFilter}`
       );
       setRequests(data.requests);
       setTotalPages(data.totalPages);
@@ -31,7 +31,7 @@ const AllBloodDonationRequest = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.patch(`http://localhost:3000/donation-requests/${id}/status`, { status });
+      await axios.patch(`https://assinment12server.vercel.app/donation-requests/${id}/status`, { status });
       fetchRequests();
     } catch (err) {
       alert('Failed to update status');
@@ -40,7 +40,7 @@ const AllBloodDonationRequest = () => {
 
   const deleteRequest = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/donation-requests/${id}`);
+      await axios.delete(`https://assinment12server.vercel.app/donation-requests/${id}`);
       fetchRequests();
     } catch (err) {
       alert('Failed to delete request');

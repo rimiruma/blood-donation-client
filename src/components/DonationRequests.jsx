@@ -7,7 +7,7 @@ const DonationRequests = () => {
   const navigate = useNavigate(); // <-- useNavigate হুক
 
   useEffect(() => {
-    axios.get("http://localhost:3000/requests")
+    axios.get("https://assinment12server.vercel.app/requests")
       .then(res => setRequests(res.data))
       .catch(err => console.log(err));
   }, []);
