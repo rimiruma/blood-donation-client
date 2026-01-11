@@ -16,7 +16,7 @@ const DonationRequestDetails = () => {
   useEffect(() => {
     const fetchRequestDetails = async () => {
       try {
-        const res = await axios.get(`https://assinment12server.vercel.app/donation-requests/${id}`);
+        const res = await axios.get(`http://localhost:3000/donation-requests/${id}`);
         setRequestDetails(res.data);
         setLoading(false);
       } catch (err) {
@@ -31,7 +31,7 @@ const DonationRequestDetails = () => {
 
   const handleConfirmDonation = async () => {
     try {
-      await axios.patch(`https://assinment12server.vercel.app/donation-requests/${id}/status`, {
+      await axios.patch(`http://localhost:3000/donation-requests/${id}/status`, {
         status: "inprogress",
       });
       alert("Donation confirmed successfully!");

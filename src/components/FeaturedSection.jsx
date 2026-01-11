@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const FeaturedSection = () => {
   return (
-    <div className="bg-white py-16 px-6 md:px-16 overflow-hidden">
+    <div className="bg-white dark:bg-gray-900 py-16 px-6 md:px-16 overflow-hidden">
       <div className="grid md:grid-cols-2 gap-10 items-center">
 
         {/* Left Content */}
@@ -12,11 +12,11 @@ const FeaturedSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl font-bold text-red-600 mb-4">
+          <h2 className="text-4xl font-bold text-red-600 dark:text-red-500 mb-4">
             About BloodBD
           </h2>
 
-          <p className="text-gray-600 mb-10 leading-relaxed">
+          <p className="text-gray-600 dark:text-gray-300 mb-10 leading-relaxed">
             BloodBD is a community-driven digital platform built to connect
             blood donors and recipients across Bangladesh. Our mission is to
             save lives by connecting people through technology and awareness.
@@ -36,12 +36,19 @@ const FeaturedSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.2, duration: 0.6 }}
                 viewport={{ once: true }}
-                className="flex items-start gap-3 bg-gray-50 p-4 rounded-lg shadow-sm"
+                className="
+                  flex items-start gap-3 p-4 rounded-lg shadow-sm
+                  bg-gray-50 dark:bg-gray-800
+                "
               >
                 <span className="text-red-500 text-3xl">{item.icon}</span>
                 <div>
-                  <h4 className="font-semibold">{item.title}</h4>
-                  <p className="text-sm text-gray-500">{item.desc}</p>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200">
+                    {item.title}
+                  </h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {item.desc}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -59,7 +66,7 @@ const FeaturedSection = () => {
           <motion.img
             src="https://i.ibb.co.com/fdRsqnnk/images.jpg"
             alt="Blood Donation"
-            className="max-w-md w-full"
+            className="max-w-md w-full rounded-lg shadow-lg"
             animate={{ y: [0, -10, 0] }}
             transition={{ repeat: Infinity, duration: 3 }}
           />

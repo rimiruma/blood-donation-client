@@ -35,32 +35,16 @@ const articles = [
 
 const NewsArticles = () => {
   return (
-    <div className="container mx-auto px-4 py-10 ">
-      <p className="text-red-500 font-medium text-center">Our News</p>
-      <h2 className="text-3xl font-bold mb-3 text-center">News & Articles</h2>
-      <p className="text-gray-500 max-w-2xl mx-auto mb-6 text-center">
-        Stay updated with the latest blood donation news, health tips, and urgent requests. 
-        Your awareness can help save lives.
-      </p>
-
-      {/* News Cards Section */}
-      <div className="grid md:grid-cols-3 gap-6">
-        {articles.map((article) => (
-          <div key={article.id} className="bg-white shadow-md rounded-lg overflow-hidden">
-            <img src={article.image} alt={article.title} className="w-full h-48 object-cover" />
-            
-            <div className="p-4">
-              <span className="text-xs uppercase font-semibold px-2 py-1 bg-red-100 text-red-500 rounded">
-                {article.category}
-              </span>
-              <h3 className="text-lg font-semibold mt-2">{article.title}</h3>
-              <p className="text-gray-400 text-sm mt-1">{article.date}</p>
-              <p className="text-gray-600 text-sm mt-2">{article.description}</p>
-              
-              <a href={article.link} className="text-red-500 font-semibold mt-3 block hover:underline">
-                Read More →
-              </a>
-            </div>
+       <div className="py-16 bg-red-50 dark:bg-gray-900">
+      <h2 className="text-center text-3xl font-bold text-red-600 mb-10">
+        Emergency Requests
+      </h2>
+      <div className="grid md:grid-cols-4 gap-6 max-w-7xl mx-auto px-4">
+        {[1,2,3,4].map(i => (
+          <div key={i} className="p-6 bg-white dark:bg-gray-800 rounded-xl">
+            <h3 className="font-bold">Blood Needed: O+</h3>
+            <p>Location: Dhaka</p>
+            {/* <button className="mt-3 text-red-600">View Details</button> */}
           </div>
         ))}
       </div>

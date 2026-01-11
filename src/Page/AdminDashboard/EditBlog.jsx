@@ -19,7 +19,7 @@ const EditBlog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const { data } = await axios.get(`https://assinment12server.vercel.app/content-management/blogs/${id}`);
+        const { data } = await axios.get(`http://localhost:3000/content-management/blogs/${id}`);
         setFormData({
           title: data.title,
           thumbnail: data.thumbnail,
@@ -57,7 +57,7 @@ const EditBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`https://assinment12server.vercel.app/content-management/blogs/${id}`, formData);
+      await axios.put(`http://localhost:3000/content-management/blogs/${id}`, formData);
       navigate('/dashboard/content-management');
     } catch (error) {
       console.error('Failed to update blog:', error);

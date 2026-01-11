@@ -112,38 +112,92 @@ const Register = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-8 rounded shadow">
-      <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
+    <div className="max-w-lg mx-auto py-20 bg-white dark:bg-gray-900 p-8 rounded shadow-md">
+      <h2 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+        Please Register
+      </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input type="text" name="name" placeholder="Full Name" className="w-full border px-3 py-2 rounded" onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Email" className="w-full border px-3 py-2 rounded" onChange={handleChange} required />
-        <input type="file" name="avatar" accept="image/*" className="w-full border px-3 py-2 rounded" onChange={handleChange} />
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          className="w-full border px-3 py-2 rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          className="w-full border px-3 py-2 rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="file"
+          name="avatar"
+          accept="image/*"
+          className="w-full border px-3 py-2 rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
+          onChange={handleChange}
+        />
 
-        <select name="bloodGroup" className="w-full border px-3 py-2 rounded" onChange={handleChange} required>
+        <select
+          name="bloodGroup"
+          className="w-full border px-3 py-2 rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
+          onChange={handleChange}
+          required
+        >
           <option value="">Select Blood Group</option>
           {["A+","A-","B+","B-","AB+","AB-","O+","O-"].map((g) => (
             <option key={g} value={g}>{g}</option>
           ))}
         </select>
 
-        <select name="district" className="w-full border px-3 py-2 rounded" onChange={handleChange} required>
+        <select
+          name="district"
+          className="w-full border px-3 py-2 rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
+          onChange={handleChange}
+          required
+        >
           <option value="">Select District</option>
           {districts.map((d) => <option key={d.id} value={d.name}>{d.name}</option>)}
         </select>
 
-        <select name="upazila" className="w-full border px-3 py-2 rounded" onChange={handleChange} required disabled={!formData.district}>
+        <select
+          name="upazila"
+          className="w-full border px-3 py-2 rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
+          onChange={handleChange}
+          required
+          disabled={!formData.district}
+        >
           <option value="">Select Upazila</option>
           {filteredUpazilas.map((u) => <option key={u.id} value={u.name}>{u.name}</option>)}
         </select>
 
-        <input type="password" name="password" placeholder="Password" className="w-full border px-3 py-2 rounded" onChange={handleChange} required />
-        <input type="password" name="confirmPassword" placeholder="Confirm Password" className="w-full border px-3 py-2 rounded" onChange={handleChange} required />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          className="w-full border px-3 py-2 rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          className="w-full border px-3 py-2 rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
+          onChange={handleChange}
+          required
+        />
 
-        <button className="w-full bg-red-500 text-white py-2 rounded">Register</button>
+        <button className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded transition">
+          Register
+        </button>
 
-        <p className="text-center text-sm">
-          Already have an account? <Link to="/login" className="text-blue-500">Login</Link>
+        <p className="text-center text-sm text-gray-700 dark:text-gray-300">
+          Already have an account? <Link to="/login" className="text-blue-500 dark:text-blue-400">Login</Link>
         </p>
       </form>
     </div>

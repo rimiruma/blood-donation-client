@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Provider/AuthProvider";
@@ -7,13 +6,10 @@ import Swal from "sweetalert2";
 
 const CreateDonation = () => {
     const { user } = useAuth();
-    console.log("user", user);
     const [userInfo, setUserInfo] = useState([]);
-    console.log("userInfo", userInfo);
     const [loading , setLoading] = useState(true);
     const [error , setError] = useState(false);
 
-    console.log("loading",loading, "error", error);
     const navigate = useNavigate();
     const [districts, setDistricts] = useState([]);
     const [filteredUpazilas, setFilteredUpazilas] = useState([]);
@@ -30,18 +26,16 @@ const CreateDonation = () => {
         donationTime: '',
         requestMessage: ''
     });
-    // feach upzilas data
+
+    // Fetch upazilas
     useEffect(() => {
         fetch("/upazilas.json")
             .then((res) => res.json())
-            .then((data) => {
-                console.log("Fetched upazilas:", data); 
-                setUpazilas(data);
-            })
+            .then((data) => setUpazilas(data))
             .catch((err) => console.error("Error fetching upazilas:", err));
     }, []);
 
-    // Fetch Districts Data
+    // Fetch districts
     useEffect(() => {
         fetch("/districts.json")
             .then((res) => res.json())
@@ -56,8 +50,7 @@ const CreateDonation = () => {
             });
     }, []);
 
-
-
+    // Blocked users
     useEffect(() => {
         if (user?.status === 'blocked') {
             alert('Blocked users cannot create donation requests.');
@@ -67,50 +60,36 @@ const CreateDonation = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        
-        });
-        console.log('name', name,value)
+        setFormData({ ...formData, [name]: value });
+
         if (name === "recipientDistrict") {
             const selectedDistrict = districts.find((d) => d.name === value);
-            console.log("Selected District:", selectedDistrict); 
             if (selectedDistrict) {
                 const filtered = upazilas.filter(
-                    (u) => u.district_id === selectedDistrict.id.toString()
+                    (u) => u.district_id.toString() === selectedDistrict.id.toString()
                 );
-                console.log("Filtered Upazilas:", filtered); 
                 setFilteredUpazilas(filtered);
             } else {
                 setFilteredUpazilas([]);
             }
-            setFormData({ ...formData, district: value, upazila: "" });
+            setFormData({ ...formData, recipientDistrict: value, recipientUpazila: "" });
         }
     };
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`https://assinment12server.vercel.app/user/${user?.email}`);
-                console.log("response", response);
+                const response = await axios.get(`http://localhost:3000/user/${user?.email}`);
                 setUserInfo(response.data.data);
             } catch (error) {
                 console.error(error);
             }
         };
-
-        fetchUserData()
-    }, [user])
-
-
-
-
-
+        fetchUserData();
+    }, [user]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!user) {
             alert('Please log in to create a donation request.');
             return;
@@ -119,22 +98,18 @@ const CreateDonation = () => {
         const requestData = {
             requesterName: user?.displayName,
             requesterEmail: user.email,
-            recipientDistrict: formData?.recipientDistrict,
             ...formData,
             donationStatus: 'pending',
         };
 
         try {
-            const response = await axios.post('https://assinment12server.vercel.app/donation-requests', requestData, {
-
-            });
-
+            const response = await axios.post('http://localhost:3000/donation-requests', requestData);
             if (response.status === 201) {
                 Swal.fire({
                     title: "Donation request created successfully!",
                     icon: "success",
                     draggable: true
-                  });
+                });
                 navigate('/dashboard/dashboard-Home');
             }
         } catch (error) {
@@ -142,41 +117,41 @@ const CreateDonation = () => {
             alert('Failed to create donation request. Please try again later.');
         }
     };
-    console.log("formData-upazila", formData.recipientUpazila);
+
+    if (loading) return <div className="text-center py-10 dark:text-gray-300">Loading...</div>;
+    if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
 
     return (
-        <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md">
+        <div className="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-900 dark:text-gray-100 shadow-md rounded-md">
             <h2 className="text-xl font-bold mb-4">Create Donation Request</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Requester Info */}
                 <div>
                     <label className="block font-medium">Requester Name</label>
-                    <input type="text" value={userInfo?.name || ''} readOnly className="input input-bordered w-full" />
+                    <input type="text" value={userInfo?.name || ''} readOnly className="input input-bordered w-full dark:bg-gray-800 dark:text-gray-100" />
                 </div>
                 <div>
                     <label className="block font-medium">Requester Email</label>
-                    <input type="email" value={userInfo?.email || ''} readOnly className="input input-bordered w-full" />
+                    <input type="email" value={userInfo?.email || ''} readOnly className="input input-bordered w-full dark:bg-gray-800 dark:text-gray-100" />
                 </div>
+
+                {/* Recipient Info */}
                 <div>
                     <label className="block font-medium">Recipient Name</label>
-                    <input type="text" name="recipientName" value={formData.recipientName} onChange={handleChange} className="input input-bordered w-full" required />
+                    <input type="text" name="recipientName" value={formData.recipientName} onChange={handleChange} className="input input-bordered w-full dark:bg-gray-800 dark:text-gray-100" required />
                 </div>
                 <div>
                     <label className="block font-medium">Recipient District</label>
                     <select
                         name="recipientDistrict"
-                        value={formData.district}
-                        
+                        value={formData.recipientDistrict}
                         onChange={handleChange}
-                        className="select select-bordered w-full"
-                        >
-
-                        <option value="" disabled>
-                            Select District
-                        </option>
+                        className="select select-bordered w-full dark:bg-gray-800 dark:text-gray-100"
+                        required
+                    >
+                        <option value="" disabled>Select District</option>
                         {districts.map((district) => (
-                            <option key={district.id} value={district.name}>
-                                {district.name}
-                            </option>
+                            <option key={district.id} value={district.name}>{district.name}</option>
                         ))}
                     </select>
                 </div>
@@ -186,64 +161,54 @@ const CreateDonation = () => {
                         name="recipientUpazila"
                         value={formData.recipientUpazila}
                         onChange={handleChange}
-                        className="select select-bordered w-full"
-                      
+                        className="select select-bordered w-full dark:bg-gray-800 dark:text-gray-100"
+                        required
                     >
-                        <option value="" >
-                            Select Upazila
-                        </option>
-                        <option value="" >
-                        Brahmanpara
-                        </option>
-                        {filteredUpazilas.length > 0 ? (
-                            filteredUpazilas.map((upazila) => (
-                                <option key={upazila.id} value={upazila.name}>
-                                    {upazila.name}
-                                </option>
-                            ))
-                        ) : (
-                            <option value="" disabled>
-                                No Upazilas Found
-                            </option>
-                        )}
+                        <option value="">Select Upazila</option>
+                        {filteredUpazilas.length > 0 ? filteredUpazilas.map((upazila) => (
+                            <option key={upazila.id} value={upazila.name}>{upazila.name}</option>
+                        )) : <option value="" disabled>No Upazilas Found</option>}
                     </select>
-
                 </div>
+
+                {/* Hospital & Address */}
                 <div>
                     <label className="block font-medium">Hospital Name</label>
-                    <input type="text" name="hospitalName" value={formData.hospitalName} onChange={handleChange} className="input input-bordered w-full" required />
+                    <input type="text" name="hospitalName" value={formData.hospitalName} onChange={handleChange} className="input input-bordered w-full dark:bg-gray-800 dark:text-gray-100" required />
                 </div>
                 <div>
                     <label className="block font-medium">Full Address</label>
-                    <input type="text" name="fullAddress" value={formData.fullAddress} onChange={handleChange} className="input input-bordered w-full" required />
+                    <input type="text" name="fullAddress" value={formData.fullAddress} onChange={handleChange} className="input input-bordered w-full dark:bg-gray-800 dark:text-gray-100" required />
                 </div>
+
+                {/* Blood Group */}
                 <div>
                     <label className="block font-medium">Blood Group</label>
-                    <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} className="select select-bordered w-full" required>
+                    <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} className="select select-bordered w-full dark:bg-gray-800 dark:text-gray-100" required>
                         <option value="">Select Blood Group</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
+                        {["A+","A-","B+","B-","AB+","AB-","O+","O-"].map((g) => (
+                            <option key={g} value={g}>{g}</option>
+                        ))}
                     </select>
                 </div>
+
+                {/* Date & Time */}
                 <div>
                     <label className="block font-medium">Donation Date</label>
-                    <input type="date" name="donationDate" value={formData.donationDate} onChange={handleChange} className="input input-bordered w-full" required />
+                    <input type="date" name="donationDate" value={formData.donationDate} onChange={handleChange} className="input input-bordered w-full dark:bg-gray-800 dark:text-gray-100" required />
                 </div>
                 <div>
                     <label className="block font-medium">Donation Time</label>
-                    <input type="time" name="donationTime" value={formData.donationTime} onChange={handleChange} className="input input-bordered w-full" required />
+                    <input type="time" name="donationTime" value={formData.donationTime} onChange={handleChange} className="input input-bordered w-full dark:bg-gray-800 dark:text-gray-100" required />
                 </div>
+
+                {/* Request Message */}
                 <div>
                     <label className="block font-medium">Request Message</label>
-                    <textarea name="requestMessage" value={formData.requestMessage} onChange={handleChange} className="textarea textarea-bordered w-full" required />
+                    <textarea name="requestMessage" value={formData.requestMessage} onChange={handleChange} className="textarea textarea-bordered w-full dark:bg-gray-800 dark:text-gray-100" required />
                 </div>
-                <button type="submit" className="btn btn-primary w-full">Submit Request</button>
+
+                <button type="submit" className="bg-red-700 hover:bg-red-800 text-white p-3 w-full rounded">Submit Request</button>
             </form>
         </div>
     );

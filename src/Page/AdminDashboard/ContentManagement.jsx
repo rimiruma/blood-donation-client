@@ -18,7 +18,7 @@ const ContentManagement = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://assinment12server.vercel.app/content-management/blogs?status=${statusFilter}`
+        `http://localhost:3000/content-management/blogs?status=${statusFilter}`
       );
       setBlogs(data);
     } catch (err) {
@@ -35,7 +35,7 @@ const ContentManagement = () => {
   const handlePublish = async (id) => {
     try {
       await axios.patch(
-        `https://assinment12server.vercel.app/content-management/blogs/${id}/publish`
+        `http://localhost:3000/content-management/blogs/${id}/publish`
       );
       fetchBlogs();
     } catch (err) {
@@ -46,7 +46,7 @@ const ContentManagement = () => {
   const handleUnpublish = async (id) => {
     try {
       await axios.patch(
-        `https://assinment12server.vercel.app/content-management/blogs/${id}/unpublish`
+        `http://localhost:3000/content-management/blogs/${id}/unpublish`
       );
       fetchBlogs();
     } catch (err) {
@@ -57,7 +57,7 @@ const ContentManagement = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(
-        `https://assinment12server.vercel.app/content-management/blogs/${id}`
+        `http://localhost:3000/content-management/blogs/${id}`
       );
       fetchBlogs();
     } catch (err) {

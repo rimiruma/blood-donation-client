@@ -1,6 +1,4 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaDonate, FaTint, FaUsers } from 'react-icons/fa';
 import { useAuth } from '../../Provider/AuthProvider';
 
@@ -16,7 +14,7 @@ const AdminDashboardHome = () => {
         // Fetch dashboard statistics from the server
         const fetchStatistics = async () => {
             try {
-                const response = await fetch('https://assinment12server.vercel.app/dashboard-statistics'); // Replace with your API endpoint
+                const response = await fetch('http://localhost:3000/dashboard-statistics'); // Replace with your API endpoint
                 const data = await response.json();
                 setStatistics(data);
             } catch (error) {
@@ -46,13 +44,15 @@ const AdminDashboardHome = () => {
     ];
 
     return (
-        <div className="p-6">
+        <div className="p-6 dark:bg-gray-900 min-h-screen">
             {/* Welcome Section */}
-            <div className="mb-6 bg-blue-100 p-4 rounded-xl text-center shadow-md">
+            <div className="mb-6 bg-blue-100 dark:bg-gray-800 dark:text-white p-4 rounded-xl text-center shadow-md">
                 <h1 className="text-2xl font-bold mb-4">
                     Welcome, {user?.displayName || user?.name || 'User'}!
                 </h1>
-                <p className="text-gray-700">Track your activities and manage everything from here.</p>
+                <p className="text-gray-700 dark:text-gray-300">
+                    Track your activities and manage everything from here.
+                </p>
             </div>
 
             {/* Statistics Cards */}
@@ -60,17 +60,16 @@ const AdminDashboardHome = () => {
                 {stats.map((stat, index) => (
                     <div
                         key={index}
-                        className="bg-white p-4 rounded-xl shadow-lg flex flex-col items-center text-center"
+                        className="bg-white dark:bg-gray-800 dark:text-white p-4 rounded-xl shadow-lg flex flex-col items-center text-center transition-colors"
                     >
                         <div className="mb-4">{stat.icon}</div>
                         <h2 className="text-2xl font-bold">{stat.count}</h2>
-                        <p className="text-gray-500">{stat.title}</p>
+                        <p className="text-gray-500 dark:text-gray-300">{stat.title}</p>
                     </div>
                 ))}
             </div>
         </div>
     );
-
 };
 
 export default AdminDashboardHome;

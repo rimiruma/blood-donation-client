@@ -17,7 +17,7 @@ const MyDonationRequests = () => {
     const fetchDonationRequests = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('https://assinment12server.vercel.app/my-donation-requests', {
+            const response = await axios.get('http://localhost:3000/my-donation-requests', {
                 params: {
                     email: user.email,
                     status: statusFilter,
@@ -35,16 +35,19 @@ const MyDonationRequests = () => {
     };
 
     return (
-        <div className="p-6">
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold">My Donation Requests</h2>
+        <div className="p-6 dark:bg-gray-900 dark:text-gray-100">
+            {/* Header & Filter */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-red-600 dark:text-red-400">
+                    My Donation Requests
+                </h2>
                 <select
                     value={statusFilter}
                     onChange={(e) => {
                         setStatusFilter(e.target.value);
                         setCurrentPage(1);
                     }}
-                    className="select select-bordered"
+                    className="select select-bordered dark:bg-gray-800 dark:text-gray-100 border-red-400 focus:border-red-600 focus:ring-1 focus:ring-red-500"
                 >
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
@@ -54,59 +57,75 @@ const MyDonationRequests = () => {
                 </select>
             </div>
 
+            {/* Loading */}
             {loading ? (
-                <div>Loading...</div>
+                <div className="text-center py-10 text-gray-500 dark:text-gray-400 animate-pulse">
+                    Loading...
+                </div>
             ) : (
-                <table className="min-w-full border">
-                    <thead>
-                        <tr>
-                            <th className="border p-2">Recipient Name</th>
-                            <th className="border p-2">Location</th>
-                            <th className="border p-2">Date</th>
-                            <th className="border p-2">Time</th>
-                            <th className="border p-2">Status</th>
-                            <th className="border p-2">Hospital Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {requests.map((request) => (
-                            <tr key={request._id}>
-                                <td className="border p-2">{request.recipientName}</td>
-                                <td className="border p-2">{request.recipientDistrict}, {request.recipientUpazila}</td>
-                                <td className="border p-2">{request.donationDate}</td>
-                                <td className="border p-2">{request.donationTime}</td>
-                                <td className="border p-2">
-                                    <span className={`px-2 py-1 rounded ${
-                                        request.donationStatus === 'completed' ? 'bg-green-200' :
-                                        request.donationStatus === 'inprogress' ? 'bg-yellow-200' :
-                                        request.donationStatus === 'canceled' ? 'bg-red-200' :
-                                        'bg-blue-200'
-                                    }`}>
-                                        {request.donationStatus}
-                                    </span>
-                                </td>
-                                <td className="border p-2">{request.hospitalName}</td>
+                <div className="overflow-x-auto shadow-lg rounded-lg">
+                    <table className="min-w-full border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead className="bg-red-600 text-white">
+                            <tr>
+                                <th className="p-3 text-left">Recipient Name</th>
+                                <th className="p-3 text-left">Location</th>
+                                <th className="p-3 text-left">Date</th>
+                                <th className="p-3 text-left">Time</th>
+                                <th className="p-3 text-left">Status</th>
+                                <th className="p-3 text-left">Hospital Name</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-100 dark:divide-gray-700">
+                            {requests.map((request) => (
+                                <tr
+                                    key={request._id}
+                                    className="hover:bg-red-50 dark:hover:bg-gray-700 transition-colors"
+                                >
+                                    <td className="p-2">{request.recipientName}</td>
+                                    <td className="p-2">
+                                        {request.recipientDistrict}, {request.recipientUpazila}
+                                    </td>
+                                    <td className="p-2">{request.donationDate}</td>
+                                    <td className="p-2">{request.donationTime}</td>
+                                    <td className="p-2">
+                                        <span
+                                            className={`px-2 py-1 rounded font-medium ${
+                                                request.donationStatus === 'completed'
+                                                    ? 'bg-green-200 text-green-800 dark:bg-green-800 dark:text-green-200'
+                                                    : request.donationStatus === 'inprogress'
+                                                    ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200'
+                                                    : request.donationStatus === 'canceled'
+                                                    ? 'bg-red-200 text-red-800 dark:bg-red-800 dark:text-red-200'
+                                                    : 'bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200'
+                                            }`}
+                                        >
+                                            {request.donationStatus}
+                                        </span>
+                                    </td>
+                                    <td className="p-2">{request.hospitalName}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
 
-            <div className="flex justify-center gap-4 mt-6">
+            {/* Pagination */}
+            <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-6">
                 <button
                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
-                    className="btn btn-sm"
+                    className="btn btn-sm bg-red-600 hover:bg-red-700 text-white disabled:opacity-50"
                 >
                     Previous
                 </button>
-                <span className="flex items-center">
+                <span className="text-gray-700 dark:text-gray-300 font-medium">
                     Page {currentPage} of {totalPages}
                 </span>
                 <button
                     onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                     disabled={currentPage === totalPages}
-                    className="btn btn-sm"
+                    className="btn btn-sm bg-red-600 hover:bg-red-700 text-white disabled:opacity-50"
                 >
                     Next
                 </button>

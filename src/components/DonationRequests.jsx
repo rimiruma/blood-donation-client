@@ -4,55 +4,83 @@ import axios from "axios";
 
 const DonationRequests = () => {
   const [requests, setRequests] = useState([]);
-  const navigate = useNavigate(); // <-- useNavigate হুক
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("https://assinment12server.vercel.app/requests")
-      .then(res => setRequests(res.data))
-      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:3000/requests")
+      .then((res) => setRequests(res.data))
+      .catch((err) => console.log(err));
   }, []);
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">Blood Donation Requests (Pending)</h2>
+    <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+      <h2 className="text-3xl font-bold mb-6 text-red-600 text-center">
+        🩸 Blood Donation Requests (Pending)
+      </h2>
 
-      <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-
-          <thead>
+      <div className="overflow-x-auto rounded-xl border border-red-200 dark:border-gray-700 shadow-lg">
+        <table className="w-full border-collapse">
+          {/* Table Head */}
+          <thead className="bg-red-600 text-white">
             <tr>
-              <th>#</th>
-              <th>Recipient</th>
-              <th>Location</th>
-              <th>Blood Group</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>View</th>
+              <th className="p-3 border border-red-500">#</th>
+              <th className="p-3 border border-red-500">Recipient</th>
+              <th className="p-3 border border-red-500">Location</th>
+              <th className="p-3 border border-red-500">Blood Group</th>
+              <th className="p-3 border border-red-500">Date</th>
+              <th className="p-3 border border-red-500">Time</th>
+              <th className="p-3 border border-red-500">Action</th>
             </tr>
           </thead>
 
-          <tbody>
+          {/* Table Body */}
+          <tbody className="bg-white dark:bg-gray-800">
             {requests.map((req, index) => (
-              <tr key={req._id}>
-                <td>{index + 1}</td>
-                <td>{req.recipientName}</td>
-                <td>{req.fullAddress}</td>
-                <td>{req.bloodGroup}</td>
-                <td>{req.donationDate}</td>
-                <td>{req.donationTime}</td>
+              <tr
+                key={req._id}
+                className="text-center hover:bg-red-50 dark:hover:bg-gray-700 transition"
+              >
+                <td className="p-3 border">{index + 1}</td>
+                <td className="p-3 border font-medium">
+                  {req.recipientName}
+                </td>
+                <td className="p-3 border">{req.fullAddress}</td>
 
-                <td>
+                <td className="p-3 border">
+                  <span className="px-3 py-1 rounded-full bg-red-100 text-red-600 font-semibold">
+                    {req.bloodGroup}
+                  </span>
+                </td>
+
+                <td className="p-3 border">{req.donationDate}</td>
+                <td className="p-3 border">{req.donationTime}</td>
+
+                <td className="p-3 border">
                   <button
-                    className="btn-square bg-red-600 text-white"
-                    onClick={() => navigate(`/donation-requests-details/${req._id}`)}
+                    onClick={() =>
+                      navigate(`/donation-requests-details/${req._id}`)
+                    }
+                    className="px-4 py-1.5 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold transition"
                   >
-                    View
+                    View Details
                   </button>
                 </td>
               </tr>
             ))}
-          </tbody>
 
+            {/* Empty State */}
+            {requests.length === 0 && (
+              <tr>
+                <td
+                  colSpan="7"
+                  className="p-6 text-center text-gray-500"
+                >
+                  No donation requests available
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
-    <div className="bg-[#600000] text-white py-16 px-6">
+    <div className="dark:bg-gray-900 bg-[#8A0000] text-white py-16 px-6">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
 
         {/* ----------- Left Text Section ----------- */}

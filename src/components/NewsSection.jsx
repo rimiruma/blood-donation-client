@@ -1,69 +1,155 @@
-import React from "react";
+import { motion } from "framer-motion";
 
 const newsData = [
   {
     id: 1,
     date: "14 Feb, 2025",
     comments: "3 Comments",
-    title: "Donation is hope for poor helpless children",
+    title: "Blood Donation Saves Lives",
     description:
-      "Help support children in need with your generous donations. Your kindness makes a difference.",
-    image: "https://media.istockphoto.com/id/1399755101/photo/young-man-donating-blood.jpg?s=612x612&w=0&k=20&c=3VsuWSEnzFDQWImiE59NSere0uctOQsfp2nSOse623s=", // Replace with actual image URL
+      "Regular blood donation helps patients during surgery, accidents, and emergencies.",
+    image:
+      "https://images.unsplash.com/photo-1615461066841-6116e61058f4",
   },
   {
     id: 2,
-    date: "14 Feb, 2025",
-    comments: "3 Comments",
-    title: "Donation is hope for poor helpless children",
+    date: "18 Feb, 2025",
+    comments: "5 Comments",
+    title: "A Single Donation, Multiple Smiles",
     description:
-      "Providing help and care to those in need. Together, we can bring change and hope.",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi84c5Dr6OISHcL-T1eOFcMYWonZPbfPyx-A&s", // Replace with actual image URL
+      "One unit of blood can save up to three lives. Your effort truly matters.",
+    image:
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b",
   },
   {
     id: 3,
-    date: "14 Feb, 2025",
-    comments: "3 Comments",
-    title: "Donation is hope for poor helpless children",
+    date: "20 Feb, 2025",
+    comments: "2 Comments",
+    title: "Emergency Blood Needs Rise",
     description:
-      "Small acts of kindness lead to a big impact. Donate today and make a change.",
-    image: "https://advinhealthcare.com/wp-content/uploads/2022/10/Blood-Donation-2.jpg", // Replace with actual image URL
+      "Hospitals face daily shortages. Donors are needed more than ever.",
+    image:
+      "https://images.unsplash.com/photo-1607746882042-944635dfe10e",
+  },
+  {
+    id: 4,
+    date: "22 Feb, 2025",
+    comments: "4 Comments",
+    title: "Why Youth Should Donate Blood",
+    description:
+      "Young donors play a vital role in building a healthy future society.",
+    image:
+      "https://images.unsplash.com/photo-1622253692010-333f2da6031d",
+  },
+  {
+    id: 5,
+    date: "25 Feb, 2025",
+    comments: "6 Comments",
+    title: "Safe Blood Donation Process",
+    description:
+      "Blood donation is safe, simple, and supervised by professionals.",
+    image:
+      "https://images.unsplash.com/photo-1579154204601-01588f351e67",
+  },
+  {
+    id: 6,
+    date: "27 Feb, 2025",
+    comments: "1 Comment",
+    title: "Donate Blood, Be a Hero",
+    description:
+      "Heroes don’t always wear capes—sometimes they donate blood.",
+    image:
+      "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5",
+  },
+  {
+    id: 7,
+    date: "01 Mar, 2025",
+    comments: "3 Comments",
+    title: "Community Blood Drives",
+    description:
+      "Local blood drives bring communities together to save lives.",
+    image:
+      "https://images.unsplash.com/photo-1598257006458-087169a1f08d",
+  },
+  {
+    id: 8,
+    date: "03 Mar, 2025",
+    comments: "2 Comments",
+    title: "Your Blood Can Save a Child",
+    description:
+      "Children with serious illnesses rely on generous blood donors.",
+    image:
+      "https://images.unsplash.com/photo-1612277795421-9bc7706a4a34",
   },
 ];
 
 const NewsSection = () => {
   return (
-    <section className=" py-12">
-      <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-red-500 uppercase text-center font-semibold">
-          Our News
-        </h2>
-        <h3 className="text-3xl font-bold text-center my-2">
-          Checkout News & Updates
-        </h3>
+    <section className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Title */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-14"
+        >
+          <h2 className="text-red-500 uppercase font-semibold tracking-wider">
+            Our News
+          </h2>
+          <h3 className="text-3xl md:text-4xl font-bold mt-2 text-gray-800 dark:text-white">
+            Latest News & Updates
+          </h3>
+          <p className="max-w-2xl mx-auto mt-4 text-gray-600 dark:text-gray-300">
+            Stay updated with the latest blood donation news, awareness stories,
+            and community impact from Blood Donation Friend.
+          </p>
+        </motion.div>
 
         {/* News Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-          {newsData.map((news) => (
-            <div
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {newsData.map((news, index) => (
+            <motion.div
               key={news.id}
-              className=" shadow-lg rounded-lg overflow-hidden"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -8 }}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden flex flex-col"
             >
               <img
                 src={news.image}
                 alt={news.title}
-                className="w-full h-56 object-cover"
+                className="w-full h-48 object-cover"
               />
-              <div className="p-4">
-                <p className="text-sm text-red-500">
+
+              <div className="p-5 flex flex-col flex-grow">
+                <p className="text-sm text-red-500 mb-2">
                   📅 {news.date} • 💬 {news.comments}
                 </p>
-                <h4 className="text-lg font-bold my-2">{news.title}</h4>
-                <p className="">{news.description}</p>
-                <a href="#" className="text-red-500 font-semibold mt-4 block">
-                  Read More &rarr;
-                </a>
+
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+                  {news.title}
+                </h4>
+
+                <p className="text-gray-600 dark:text-gray-300 text-sm flex-grow">
+                  {news.description}
+                </p>
+
+                {/* Button */}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="mt-5 inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full 
+                  bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold shadow-md"
+                >
+                  Read More
+                  <span>→</span>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

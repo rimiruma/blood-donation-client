@@ -28,6 +28,9 @@ import AddBlogs from "../Page/VolunteerDashboard/AddBlogs";
 import PrivateRoute from "./PrivateRoute";
 import DonationDetails from "../components/DonationDetails";
 import VolunteerAllBloodDonationRequest from "../Page/VolunteerDashboard/VolunteerAllBloodDonationRequest";
+import BlockSection from "../components/BlogSection";
+import FundingLinks from "../components/FundingLinks";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -45,16 +48,21 @@ const router = createBrowserRouter([
         path: "register",
         element: <Register></Register>,
       },
-
+      {
+        path: "/blog",
+        Component: BlockSection,
+      },
+      {
+        path: "/funding-links",
+        Component: FundingLinks,
+      },
       {
         path: "donation-requests",
         element: <DonationRequests></DonationRequests>,
       },
       {
         path: "donation-requests-details/:id",
-        element: <PrivateRoute>
-           <DonationRequestDetails />
-        </PrivateRoute>,
+        element:<DonationRequestDetails />,
       },
       {
         path: "search",
@@ -71,7 +79,6 @@ const router = createBrowserRouter([
         path: "dashboard-Home",
         element: (
           <DonorRoute>
-            
             <DashboardHome />
           </DonorRoute>
         ),
@@ -80,7 +87,6 @@ const router = createBrowserRouter([
         path: "my-donation-requests",
         element: (
           <DonorRoute>
-            
             <MyDonationRequests />
           </DonorRoute>
         ),
