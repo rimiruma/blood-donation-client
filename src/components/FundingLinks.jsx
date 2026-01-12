@@ -97,7 +97,7 @@ const FundingLinks = () => {
                 </p>
               </div>
 
-              <button className="mt-6 w-full py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold transition">
+              <button className="mt-6 w-full py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold transition cursor-pointer">
                 Donate Now
               </button>
             </motion.div>

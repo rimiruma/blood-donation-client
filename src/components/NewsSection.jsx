@@ -143,7 +143,7 @@ const NewsSection = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="mt-5 inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full 
-                  bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold shadow-md"
+                  bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold shadow-md cursor-pointer"
                 >
                   Read More
                   <span>→</span>

@@ -8,7 +8,7 @@ const useUserRole = (email) => {
     queryKey: ['userRole', email],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:3000/user/${encodedEmail}`
+        `https://assinment12server.vercel.app/user/${encodedEmail}`
       );
       return response.data?.data?.role; // backend structure অনুযায়ী
     },

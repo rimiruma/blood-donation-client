@@ -79,7 +79,7 @@ const CreateDonation = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/user/${user?.email}`);
+                const response = await axios.get(`https://assinment12server.vercel.app/user/${user?.email}`);
                 setUserInfo(response.data.data);
             } catch (error) {
                 console.error(error);
@@ -103,7 +103,7 @@ const CreateDonation = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:3000/donation-requests', requestData);
+            const response = await axios.post('https://assinment12server.vercel.app/donation-requests', requestData);
             if (response.status === 201) {
                 Swal.fire({
                     title: "Donation request created successfully!",

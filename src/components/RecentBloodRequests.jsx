@@ -78,7 +78,7 @@ const RecentBloodRequests = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold shadow-lg"
+            className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold shadow-lg cursor-pointer"
           >
             Become a Donor Today
           </motion.button>

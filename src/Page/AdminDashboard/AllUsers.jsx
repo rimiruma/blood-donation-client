@@ -15,7 +15,7 @@ const AllUsers = () => {
   // Fetch users
   const fetchUsers = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:3000/users`, {
+      const { data } = await axios.get(`https://assinment12server.vercel.app/users`, {
         params: {
           status: filter === 'all' ? '' : filter,
           page,
@@ -36,7 +36,7 @@ const AllUsers = () => {
   // Handle status update
   const handleStatusUpdate = async (newStatus) => {
     try {
-      await axios.patch(`http://localhost:3000/users/${selectedUser._id}/status`, {
+      await axios.patch(`https://assinment12server.vercel.app/users/${selectedUser._id}/status`, {
         status: newStatus
       });
       setShowStatusModal(false);
@@ -49,7 +49,7 @@ const AllUsers = () => {
   // Handle role update
   const handleRoleUpdate = async (newRole) => {
     try {
-      await axios.patch(`http://localhost:3000/users/${selectedUser._id}/role`, {
+      await axios.patch(`https://assinment12server.vercel.app/users/${selectedUser._id}/role`, {
         role: newRole
       });
       setShowRoleModal(false);

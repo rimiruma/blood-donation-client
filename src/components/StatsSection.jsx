@@ -8,7 +8,7 @@ const StatsSection = () => {
         backgroundImage: `url('https://media.gettyimages.com/id/1496758825/photo/nurse-taking-a-patients-blood-sample.jpg?s=612x612&w=gi&k=20&c=kR6Q-35SOKTSpVoKzvQaa-sT_SpcTzsi3kO71bGObGQ=')`, // Replace with your actual image URL
       }}
     >
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      <div className="absolute inset-0 dark:bg-black bg-opacity-50"></div>
 
       <div className="relative container mx-auto text-center px-6">
         <p className="text-red-400 font-semibold uppercase">We Help People</p>

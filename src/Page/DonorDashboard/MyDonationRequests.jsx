@@ -17,7 +17,7 @@ const MyDonationRequests = () => {
     const fetchDonationRequests = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:3000/my-donation-requests', {
+            const response = await axios.get('https://assinment12server.vercel.app/my-donation-requests', {
                 params: {
                     email: user.email,
                     status: statusFilter,

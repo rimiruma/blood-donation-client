@@ -13,7 +13,7 @@ const VolunteerDashboardHome = () => {
   useEffect(() => {
     const fetchStatistics = async () => {
       try {
-        const response = await fetch("http://localhost:3000/dashboard-statistics"); 
+        const response = await fetch("https://assinment12server.vercel.app/dashboard-statistics"); 
         const data = await response.json();
         setStatistics(data);
       } catch (error) {

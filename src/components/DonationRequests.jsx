@@ -8,7 +8,7 @@ const DonationRequests = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/requests")
+      .get("https://assinment12server.vercel.app/requests")
       .then((res) => setRequests(res.data))
       .catch((err) => console.log(err));
   }, []);

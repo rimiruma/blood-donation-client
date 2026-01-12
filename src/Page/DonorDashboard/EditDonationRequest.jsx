@@ -17,7 +17,7 @@ const EditDonationRequest = () => {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/donation-requests/${id}`);
+        const response = await axios.get(`https://assinment12server.vercel.app/donation-requests/${id}`);
         setFormData(response.data);
       } catch (error) {
         console.error("Error fetching donation request:", error);
@@ -33,7 +33,7 @@ const EditDonationRequest = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:3000/donation-requests/${id}`, formData);
+      await axios.patch(`https://assinment12server.vercel.app/donation-requests/${id}`, formData);
       navigate("/dashboard/dashboard-Home");
     } catch (error) {
       console.error("Error updating donation request:", error);

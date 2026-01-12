@@ -53,7 +53,7 @@ const AuthProvider = ({ children }) => {
     const encodedEmail = encodeURIComponent(user.email);
 
     axios
-      .get(`http://localhost:3000/user-profile?email=${encodedEmail}`)
+      .get(`https://assinment12server.vercel.app/user-profile?email=${encodedEmail}`)
       .then((res) => {
         setUserProfile(res.data);
       })
